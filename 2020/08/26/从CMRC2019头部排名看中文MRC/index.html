@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/zrmm.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/zrmm.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/zrmm.jpg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+
+  <meta name="description" content="从CMRC2019头部排名看中文MRC[TOC] 0 预备知识数据集CMRC 2019的任务是句子级填空型阅读理解（Sentence Cloze-Style Machine Reading Comprehension, SC-MRC）。我个人感觉类似7选5 or 5选5的题型。.根据给定的一个叙事篇章以及若干个从篇章中抽取出的句子，参赛者需要建立模型将候选句子精准的填回原篇章中，使之成为完整的一篇">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Changreal">
+<meta property="og:url" content="http://yoursite.com/2020/08/26/%E4%BB%8ECMRC2019%E5%A4%B4%E9%83%A8%E6%8E%92%E5%90%8D%E7%9C%8B%E4%B8%AD%E6%96%87MRC/index.html">
+<meta property="og:site_name" content="Changreal">
+<meta property="og:description" content="从CMRC2019头部排名看中文MRC[TOC] 0 预备知识数据集CMRC 2019的任务是句子级填空型阅读理解（Sentence Cloze-Style Machine Reading Comprehension, SC-MRC）。我个人感觉类似7选5 or 5选5的题型。.根据给定的一个叙事篇章以及若干个从篇章中抽取出的句子，参赛者需要建立模型将候选句子精准的填回原篇章中，使之成为完整的一篇">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/04/05/CvMnSOuihI3bsK9.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/05/DhSkrxAN7fQiCw8.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/05/K5tZYDBApsEbfLQ.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/05/ybPlfa7WBhNuUL8.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/07/RhbtLyYATc2CgUV.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/05/3qJyBoOjdTE76fH.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/05/kpmrPMKlVhJRxaA.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/06/7c3zfHh4QvnMubO.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/05/HhA8WYNq7str3C2.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/05/38HFotdpklg7Ky5.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/05/utvSGrQMOIP8byn.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/05/gzp1vXYZyENBesT.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/05/Mnwya1HrfkNWCPo.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/05/RzT7cPtryxd4XmM.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/05/lD7W84o1HTvxn9t.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/05/1hMJGa4FSfulCLP.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/05/nH1khN7Z8KReYEq.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/05/oah2jvKuZGXD8Wm.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/06/9HdDV8a1JTmf4OA.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/06/EzhQG2up7XsZ1rR.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/06/TDLKZ5zhopAseq2.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/06/QrpsoT63IWZOh9R.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/06/JRlrbdkp2MafTuW.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/06/AGjzlx6UrNw18K9.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/06/RvmdVqbeLH8lcDQ.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/06/fvImiAlHwo52TkE.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/06/SkPHhfbmxTrANYZ.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/06/lPskJtxyvHKWDF8.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/07/r8EXhDtlMQejGB2.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/07/7afWR2s9MlmTvDi.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/07/LrJHgYxc5e3PKQz.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/07/mvLkRPVIji4CFlz.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/07/7ywZhm6NodjpSUD.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/07/VeYMd2Hg5U3QCbS.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/07/SY7sKgNJl4z8eLj.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/07/qovx3YpsjhrgmyC.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/07/NkSHlsXVUnguJdx.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/07/JfVN54x9sKlB6ir.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/07/yoaGfIJknuw1WRe.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/07/BDcTEodK4yFbCa8.png">
+<meta property="article:published_time" content="2020-08-26T14:13:13.580Z">
+<meta property="article:modified_time" content="2020-08-26T14:12:58.002Z">
+<meta property="article:author" content="Changreal">
+<meta property="article:tag" content="rrz的动感地带">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/04/05/CvMnSOuihI3bsK9.png">
+
+
+<link rel="canonical" href="http://yoursite.com/2020/08/26/%E4%BB%8ECMRC2019%E5%A4%B4%E9%83%A8%E6%8E%92%E5%90%8D%E7%9C%8B%E4%B8%AD%E6%96%87MRC/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title> | Changreal</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Changreal</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">睿睿的动感地带</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8ECMRC2019%E5%A4%B4%E9%83%A8%E6%8E%92%E5%90%8D%E7%9C%8B%E4%B8%AD%E6%96%87MRC"><span class="nav-number">1.</span> <span class="nav-text">从CMRC2019头部排名看中文MRC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0-%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="nav-number">1.1.</span> <span class="nav-text">0 预备知识</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">1.1.1.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%AD%E6%96%87MRC%E4%BB%BB%E5%8A%A1%E8%A6%81%E7%82%B9%EF%BC%88%E8%9E%8D%E5%90%88CMRC2018-2019%EF%BC%89"><span class="nav-number">1.1.2.</span> <span class="nav-text">中文MRC任务要点（融合CMRC2018-2019）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">任务类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA%E4%B8%8E%E6%89%A9%E5%85%85"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">数据增强与扩充</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">数据处理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E5%90%91%E9%87%8F%E5%8C%96%E8%A1%A8%E8%BE%BE"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">文本向量化表达</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E8%9E%8D%E5%90%88"><span class="nav-number">1.1.2.5.</span> <span class="nav-text">特征融合</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.2.6.</span> <span class="nav-text">训练方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.1.2.7.</span> <span class="nav-text">预训练模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A2%84%E6%B5%8B%E7%9B%AE%E6%A0%87"><span class="nav-number">1.1.2.8.</span> <span class="nav-text">预测目标</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%EF%BC%9Atrick-amp-%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.2.9.</span> <span class="nav-text">其他：trick &amp; 问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7"><span class="nav-number">1.1.2.10.</span> <span class="nav-text">实用工具</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BA%94%E7%94%A8"><span class="nav-number">1.1.2.11.</span> <span class="nav-text">应用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%86%A0%E5%86%9B%EF%BC%9A%E5%B9%B3%E5%AE%89%E9%87%91%E8%9E%8D"><span class="nav-number">1.2.</span> <span class="nav-text">1 冠军：平安金融</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%B2%E8%A6%81"><span class="nav-number">1.2.1.</span> <span class="nav-text">纲要</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AD%96%E7%95%A5"><span class="nav-number">1.2.2.</span> <span class="nav-text">策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83"><span class="nav-number">1.2.3.</span> <span class="nav-text">核心</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%9E%E8%B4%AF%E6%80%A7%E5%AD%A6%E4%B9%A0"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">连贯性学习</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#SiBert"><span class="nav-number">1.2.3.1.1.</span> <span class="nav-text">SiBert</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%B4%9F%E6%A0%B7%E6%9C%AC%E7%9A%84%E8%BF%9E%E8%B4%AF%E6%80%A7"><span class="nav-number">1.2.3.1.2.</span> <span class="nav-text">负样本的连贯性</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9D%9E%E7%8B%AC%E7%AB%8B%E6%80%A7%E7%9A%84%E9%A2%84%E6%B5%8B%E6%96%B9%E5%BC%8F"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">非独立性的预测方式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E9%95%BF%E5%BA%A6%E4%B8%8E%E5%88%86%E8%AF%8D"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">文本长度与分词</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA%E4%B8%8E%E9%A2%86%E5%9F%9F%E8%BF%81%E7%A7%BB"><span class="nav-number">1.2.3.4.</span> <span class="nav-text">动态数据增强与领域迁移</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E8%9E%8D%E5%AE%9E%E9%AA%8C"><span class="nav-number">1.2.4.</span> <span class="nav-text">消融实验</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%BA%9A%E5%86%9B%EF%BC%9A%E9%A1%BA%E4%B8%B0-Mojito-System"><span class="nav-number">1.3.</span> <span class="nav-text">2 亚军：顺丰 Mojito System</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%84%E5%A4%84%E7%90%86"><span class="nav-number">1.3.1.</span> <span class="nav-text">预处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%84%E8%AE%AD%E7%BB%83"><span class="nav-number">1.3.2.</span> <span class="nav-text">预训练</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.3.3.</span> <span class="nav-text">模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%84%E6%B5%8B%E7%AD%96%E7%95%A5"><span class="nav-number">1.3.4.</span> <span class="nav-text">预测策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">1.3.5.</span> <span class="nav-text">实验结果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E5%88%86%E6%9E%90"><span class="nav-number">1.3.6.</span> <span class="nav-text">错误分析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%AD%A3%E5%86%9B%EF%BC%9A6Estates"><span class="nav-number">1.4.</span> <span class="nav-text">3 季军：6Estates</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90"><span class="nav-number">1.4.1.</span> <span class="nav-text">数据集分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AD%96%E7%95%A5%E4%B8%8E%E6%96%B9%E6%B3%95"><span class="nav-number">1.4.2.</span> <span class="nav-text">策略与方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86%E6%89%A9%E5%85%85%EF%BC%8C%E5%88%86%E5%B8%83%E8%B0%83%E6%95%B4"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">数据集扩充，分布调整</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A2%84%E8%AE%AD%E7%BB%83-1"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">预训练</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%95%E4%B8%AAchoice%E6%8B%BC%E6%8E%A5%E9%A2%84%E6%B5%8B"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">单个choice拼接预测</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%9A%E4%B8%AAchoice%E6%8B%BC%E6%8E%A5%E9%A2%84%E6%B5%8B"><span class="nav-number">1.4.2.4.</span> <span class="nav-text">多个choice拼接预测</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%9Achoice-vs-%E5%8D%95choice"><span class="nav-number">1.4.2.5.</span> <span class="nav-text">多choice vs 单choice</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9B%86%E6%88%90%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.4.2.6.</span> <span class="nav-text">集成模型</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%94%B9%E8%BF%9B"><span class="nav-number">1.4.3.</span> <span class="nav-text">改进</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%AD%A3%E5%86%9B%EF%BC%9A%E5%93%88%E5%B7%A5%E5%A4%A7"><span class="nav-number">1.5.</span> <span class="nav-text">4 季军：哈工大</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%9E%B6%E6%9E%84"><span class="nav-number">1.5.1.</span> <span class="nav-text">模型架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA"><span class="nav-number">1.5.2.</span> <span class="nav-text">数据增强</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E7%8E%87"><span class="nav-number">1.5.3.</span> <span class="nav-text">学习率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E6%96%B9%E6%B3%95-1"><span class="nav-number">1.5.4.</span> <span class="nav-text">训练方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA%E4%B8%8E%E5%8E%9F%E5%A7%8B%E6%95%B0%E6%8D%AE%E7%9A%84-%E6%B7%B7%E5%90%88%E6%A8%A1%E5%BC%8F-%E9%80%89%E6%8B%A9"><span class="nav-number">1.5.5.</span> <span class="nav-text">数据增强与原始数据的 混合模式 选择</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%92%E9%99%A4%E5%B9%B2%E6%89%B0%E9%A1%B9"><span class="nav-number">1.5.6.</span> <span class="nav-text">排除干扰项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C-1"><span class="nav-number">1.5.7.</span> <span class="nav-text">实验结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%AD%A3%E5%86%9B%EF%BC%9ACICC"><span class="nav-number">1.6.</span> <span class="nav-text">5 季军：CICC</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C%E5%92%8C%E6%B6%88%E8%9E%8D%E5%88%86%E6%9E%90"><span class="nav-number">1.6.1.</span> <span class="nav-text">实验结果和消融分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8D%E6%80%9D"><span class="nav-number">1.6.2.</span> <span class="nav-text">反思</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E5%90%AF%E5%8F%91"><span class="nav-number">1.7.</span> <span class="nav-text">6 启发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E5%8F%82%E8%80%83"><span class="nav-number">1.8.</span> <span class="nav-text">7 参考</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E9%A1%B5"><span class="nav-number">1.8.1.</span> <span class="nav-text">网页</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ppt%E6%8F%90%E5%88%B0%E7%9A%84%E8%AE%BA%E6%96%87"><span class="nav-number">1.8.2.</span> <span class="nav-text">ppt提到的论文</span></a></li></ol></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Changreal"
+      src="/images/zrmm.jpg">
+  <p class="site-author-name" itemprop="name">Changreal</p>
+  <div class="site-description" itemprop="description">博客</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/26/%E4%BB%8ECMRC2019%E5%A4%B4%E9%83%A8%E6%8E%92%E5%90%8D%E7%9C%8B%E4%B8%AD%E6%96%87MRC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zrmm.jpg">
+      <meta itemprop="name" content="Changreal">
+      <meta itemprop="description" content="博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Changreal">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2020-08-26 22:13:13 / Modified: 22:12:58" itemprop="dateCreated datePublished" datetime="2020-08-26T22:13:13+08:00">2020-08-26</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="从CMRC2019头部排名看中文MRC"><a href="#从CMRC2019头部排名看中文MRC" class="headerlink" title="从CMRC2019头部排名看中文MRC"></a>从CMRC2019头部排名看中文MRC</h2><p>[TOC]</p>
+<h3 id="0-预备知识"><a href="#0-预备知识" class="headerlink" title="0 预备知识"></a>0 预备知识</h3><h4 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h4><p><strong>CMRC 2019</strong>的任务是<strong>句子级填空型阅读理解</strong>（Sentence Cloze-Style Machine Reading Comprehension, SC-MRC）。我个人感觉类似7选5 or 5选5的题型。.根据给定的一个叙事篇章以及若干个从篇章中抽取出的句子，参赛者需要建立模型将候选句子精准的填回原篇章中，使之成为完整的一篇文章。SC级的任务提升了MRC难度。</p>
+<p>难点：需要根据上下文逻辑关系判断空穴部分；减少干扰项的影响</p>
+<p><img src="https://i.loli.net/2020/04/05/CvMnSOuihI3bsK9.png"></p>
+<p><strong>数据集样式</strong></p>
+<table>
+<thead>
+<tr>
+<th>JSON字段</th>
+<th>介绍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>context</td>
+<td>带空缺的篇章，空缺以<code>[BLANK]</code>表示</td>
+</tr>
+<tr>
+<td>context_id</td>
+<td>篇章的ID, 唯一</td>
+</tr>
+<tr>
+<td>choices</td>
+<td>填入空缺内的候选句子，<strong>有序</strong>列表</td>
+</tr>
+<tr>
+<td>answers</td>
+<td>填入空缺的句子序号顺序（句子序号从0开始计数）</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>JSON举例（包含假选项）</strong></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;data&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;context&quot;</span>: <span class="string">&quot;森林里有一棵大树，树上有一个鸟窝。[BLANK1]，还从来没有看到过鸟宝宝长什么样。 </span></span><br><span class="line"><span class="string">            小松鼠说：“我爬到树上去看过，鸟宝宝光溜溜的，身上一根羽毛也没有。” “我不相信，”小白兔说，“所有的鸟都是有羽毛的。” </span></span><br><span class="line"><span class="string">            “鸟宝宝没有羽毛。”小松鼠说，“你不信自己去看。” </span></span><br><span class="line"><span class="string">            小白兔不会爬树，它没有办法去看。小白兔说：“我请蓝狐狸去看一看，我相信蓝狐狸的话。” 小松鼠说：“蓝狐狸跟你一样，也不会爬树。” </span></span><br><span class="line"><span class="string">            蓝狐狸说：“我有魔法树叶，我能变成一只狐狸鸟。” [BLANK2]，一下子飞到了树顶上。 “蓝狐狸，你看到了吗？”小白兔在树下大声喊。 </span></span><br><span class="line"><span class="string">            “我看到了，鸟窝里有四只小鸟，他们真是光溜溜的，一根羽毛也没有。”蓝狐狸说。 就在这时候，鸟妈妈和鸟爸爸回来了，</span></span><br><span class="line"><span class="string">            [BLANK3]，....[BLANK8]....&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;choices&quot;</span>: [</span><br><span class="line">                <span class="string">&quot;蓝狐狸是第一次变成狐狸鸟&quot;</span>,</span><br><span class="line">                <span class="string">&quot;森林里所有的鸟听到喊声&quot;</span>,</span><br><span class="line">                <span class="string">&quot;他们看到鸟窝里蹲着一只蓝色的大鸟&quot;</span>,</span><br><span class="line">                <span class="string">&quot;蓝狐狸真的变成了一只蓝色的大鸟&quot;</span>,</span><br><span class="line">                <span class="string">&quot;小动物们只看到过鸟妈妈和鸟爸爸在鸟窝里飞进飞出&quot;</span>,</span><br><span class="line">                <span class="string">&quot;小松鼠变成了一只蓝色的大鸟&quot;</span></span><br><span class="line">                ],</span><br><span class="line">            <span class="attr">&quot;context_id&quot;</span>: <span class="string">&quot;SAMPLE_00002&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;answers&quot;</span>: [<span class="number">4</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">0</span>]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>CMRC 2018</strong>的数据集和SQuAD类型相似，来源于中文维基百科，单文档，给定一篇文档和一个问题；参赛者需要解决的是，如何建立并训练 model，使其能更好地理解 context 与 query，并找到相应答案。</p>
+<p>在数据方面，主要工作集中在<u>数据的归一化和去噪音</u>。CMRC 比赛训练集包含大约一万条数据，总体数据量偏少，这种情况下<u>数据的标注一致性尤为重要</u>。（标注不一致的问题会使模型的最终预测 EM 指标降低）</p>
+<p><strong>相关资讯</strong></p>
+<ul>
+<li>CMRC官网介绍：<a target="_blank" rel="noopener" href="https://hfl-rc.github.io/cmrc2019/task/">https://hfl-rc.github.io/cmrc2019/task/</a></li>
+</ul>
+<h4 id="中文MRC任务要点（融合CMRC2018-2019）"><a href="#中文MRC任务要点（融合CMRC2018-2019）" class="headerlink" title="中文MRC任务要点（融合CMRC2018-2019）"></a>中文MRC任务要点（融合CMRC2018-2019）</h4><h5 id="任务类型"><a href="#任务类型" class="headerlink" title="任务类型"></a>任务类型</h5><ul>
+<li><p>完形填空</p>
+</li>
+<li><p>多选</p>
+<p>考虑输入拼接方式，比如是单个choice预测 还是 多个choice预测（6estates的启发）</p>
+</li>
+<li><p>抽取式</p>
+</li>
+</ul>
+<h5 id="数据增强与扩充"><a href="#数据增强与扩充" class="headerlink" title="数据增强与扩充"></a>数据增强与扩充</h5><ul>
+<li><p>数据量少</p>
+<p>back translatin：比如zh-&gt;en-&gt;zh(哈工大)，过程中保持[blank]位置不变，然后最强增强倍数N=1</p>
+<p>用类似领域的数据作为补充；</p>
+<p>人工标注（成本花费大）</p>
+</li>
+<li><p>数据增强方式</p>
+<ul>
+<li><p>比如多选类型，对答案不属于文章任何一个choice的情况（<em>unknow choice</em>)，做简单DA</p>
+</li>
+<li><p>又或者动态数据增强（平安）？</p>
+</li>
+<li><p>又如增加假答案（从原文中随机选取一定数量句子作为候选答案（<strong>增加假答案</strong>）参与训练。（顺丰，CICC是每篇文章会从<u>上一篇文章</u>抽一个句子作为<strong>假例子</strong>）</p>
+</li>
+<li><p>sample2paras：将所有原文中的 [BLANK] 用 choices 填充，<strong>重新随机生成新的</strong> [BLANK] 位置与对应的 choices，新 [BLANK] 位置的原文长度<u>分布</u>与原始训练集<u>一致</u></p>
+</li>
+<li><p>生成数据也要考虑去重，比如达到一个阈值或者尝试生成次数上限</p>
+</li>
+<li><p>设置增强倍数，即每个样本生成N个增强数据</p>
+</li>
+</ul>
+</li>
+<li><p>抓取数据</p>
+<p>如从故事网等网站上抓取相关文本作为数据集的扩充，并删去相似文本</p>
+<p>扩充数据集的时候要注意分布（6estates)，从而生成新数据集</p>
+</li>
+<li><p>调整问题或者context长度的分布，也要研究一下（6estates和哈工大都有这思想），分布也会涉及重复的样本</p>
+</li>
+<li><p>增强数据与原始数据的<strong>混合模式</strong>选择</p>
+<ul>
+<li>增强数据与目标数据领域完全一致</li>
+<li>增强数据与目标数据领域有差异（适合迁移 or <strong>stage-wise</strong>）</li>
+</ul>
+</li>
+</ul>
+<h5 id="数据处理"><a href="#数据处理" class="headerlink" title="数据处理"></a>数据处理</h5><ul>
+<li><p>文本归一化处理（如：如<u>繁简转换</u>、<u><em>中英文标点转换</em></u>、<u>去除拼音标注</u> 、<u>长度限制</u>、<u>分布调整</u> 等）</p>
+</li>
+<li><p>增加<u>假答案</u>（从原文中随机选取一定数量句子作为候选答案（假答案）参与训练），CICC是每篇文章会从上一篇文章抽一个句子作为<u>假例子</u></p>
+</li>
+<li><p>context norm</p>
+</li>
+<li><p>filter query is None or answer is None</p>
+</li>
+<li><p>Answer和Context长度限制</p>
+</li>
+<li><p>data augment</p>
+</li>
+<li><p>干扰项（CMRC2019）</p>
+<p>重复干扰项，排除重复干扰项能明显提高推理效果</p>
+<p>随机干扰项</p>
+</li>
+</ul>
+<h5 id="文本向量化表达"><a href="#文本向量化表达" class="headerlink" title="文本向量化表达"></a>文本向量化表达</h5><ul>
+<li><p>如用预训练语言模型，如中文ELMo（英文ELMo是基于字符集的编码），可采用的粒度有：</p>
+<ul>
+<li>中文词级</li>
+<li>笔划级</li>
+</ul>
+</li>
+<li><p>字模型</p>
+<p>优点：embedding参数少，unk少，语料中字出现的次数相对均匀；</p>
+<p>缺点：中文字模型分词后文本可能过长，有些任务分段后性能下降，没有分词的先验信息。</p>
+<p><strong>Token level的分类任务(阅读理解，NER等)，字模型&gt;&gt;词模型。</strong>虽然字模型整体表现更好，但是词模型能够有效降低文本长度使得attention视野更远，部分数据集会有奇效。</p>
+</li>
+<li><p>词模型</p>
+<p>优点：有分词的先验信息。有预训练词向量，能够降低文本长度，节约显存。</p>
+<p>缺点：Embedding参数巨大，UNK多，词频分布不均带来部分词的优化过于稀疏；week domain transfer ability；目前的分词工具表现还不是很好，会导致下游任务的bias</p>
+<p>对于Transformer而言，受限于显存压力。模型大多长度受限，而长距离的attention在很多任务上非常关键，此时词模型对text level的分类任务上可能会有奇效。</p>
+<p>通过平安的模型，得知：基于 <strong>sentencepiece</strong>统计得到的 <strong>字词混合模型</strong> 能够基本解决词模型unk的问题，并且在预训练中远优于传统分词+统计得到的词模型。</p>
+</li>
+<li><p><strong>sub-word</strong> 了解一下咯！</p>
+</li>
+<li><p>pos embedding</p>
+</li>
+<li><p>query type embedding</p>
+</li>
+<li><p>word match</p>
+</li>
+<li><p>长文档处理（比如结合tramsformer-xl, xlnet的自回归方式处理长文本）</p>
+</li>
+</ul>
+<h5 id="特征融合"><a href="#特征融合" class="headerlink" title="特征融合"></a>特征融合</h5><ul>
+<li><p>问题类型的one-hot特征</p>
+<p>如：who, where, when, how, num, why, how long等类型，转为one-hot向量</p>
+</li>
+<li><p>POS信息</p>
+</li>
+<li><p>词共现特征</p>
+</li>
+<li><p>句子连贯性</p>
+<ul>
+<li>候选答案回填（顺丰）</li>
+<li>SI，SSI方法（平安）</li>
+</ul>
+</li>
+</ul>
+<h5 id="训练方法"><a href="#训练方法" class="headerlink" title="训练方法"></a>训练方法</h5><ul>
+<li><p>蒸馏（distill）</p>
+<ul>
+<li><p>自我蒸馏，self-distill。</p>
+<p>自我蒸馏就是不改变模型大小，循环进行 teacher-student 的训练，直到效果不再改进</p>
+</li>
+<li><p>知识蒸馏</p>
+<p>如student采用和teacher同样的网络结构（重生网络）</p>
+</li>
+</ul>
+<p>蒸馏通常用在模型压缩方面，即采用预训练好的复杂模型（teacher model）输出作为监督信号去训练另一个简单模型（student model），从而将 teacher 学习到的知识迁移到 student。</p>
+</li>
+<li><p>Post-process（要了解）</p>
+<p>无监督数据预训练LM -&gt; 特定任务数据上精调LM -&gt; 任务标注数据精调模型（LM初始化）</p>
+</li>
+<li><p>打破模型训练消耗大对想法尝试的束缚：（CICC）</p>
+<p>使用相同原理的tiny模型做benchmark,在其基础上做对比实验，最后应用到大模型上。</p>
+</li>
+<li><p>多层级任务的pretrain——字、词、句（cicc）</p>
+</li>
+</ul>
+<h5 id="预训练模型"><a href="#预训练模型" class="headerlink" title="预训练模型"></a>预训练模型</h5><ul>
+<li>中文预训练BERT-wwm</li>
+</ul>
+<h5 id="预测目标"><a href="#预测目标" class="headerlink" title="预测目标"></a>预测目标</h5><ul>
+<li>level：character level, word level, sentence level</li>
+<li>NSP, MSP(6esetates)</li>
+<li>这些训练目标和组合，比如同时预测character-level 和mask和mask sentence prediction，不知道能不能看做多任务学习</li>
+<li><strong>全词掩码 wwm</strong></li>
+</ul>
+<p><strong>目标类型</strong></p>
+<ul>
+<li><p>语言模型</p>
+</li>
+<li><p>分类问题</p>
+</li>
+<li><p>合理性排序问题（顺丰），目标决定损失函数</p>
+</li>
+</ul>
+<h5 id="其他：trick-amp-问题"><a href="#其他：trick-amp-问题" class="headerlink" title="其他：trick &amp; 问题"></a>其他：trick &amp; 问题</h5><ul>
+<li><p>Gate机制（关注核心单词）</p>
+<p>如extra gated-dropout for query</p>
+</li>
+<li><p>答案抽取用PointerNetwork来预测答案起始与终止位置</p>
+<p>prob = start * end</p>
+</li>
+<li><p>多任务</p>
+<ul>
+<li>预测词是不是在答案的范围里，二分类，当做辅助任务去训练</li>
+<li>预测答案是否在这个句子里</li>
+</ul>
+<p>多任务其实是比较 trick 的东西，不同任务设置的权重不一样，需要不断去尝试。</p>
+</li>
+<li><p>显存优化方法</p>
+<ul>
+<li>blocksparse</li>
+<li>避免对大tensor进行dropout</li>
+</ul>
+</li>
+<li><p>中文文档复杂性</p>
+<p>当数据集是文本时，文档可能长至几百页，这时，机器就需要搭配<u>文章分类</u>和<u>段落索引</u>这样的技术来提升速度和准确性。</p>
+<p>另外，文档中的一级标题、二级标题以及表格和图片等都是需要处理的问题。</p>
+</li>
+<li><p>学习率</p>
+<ul>
+<li>学习率自适应，也就是每层组设置不同的学习率（哈工大）</li>
+<li>三角周期学习率，学习率按照三角规律周期性变化（与固定学习率的指数衰减方式相比，有明显提升）</li>
+</ul>
+</li>
+<li><p>模型集成， 模型融合</p>
+</li>
+<li><p>损失函数</p>
+<p>marginLoss, CrossEntropyLoss</p>
+</li>
+</ul>
+<h5 id="实用工具"><a href="#实用工具" class="headerlink" title="实用工具"></a>实用工具</h5><ul>
+<li><p>了解一下SMRC，搜狗的机器阅读理解工具集合，<a target="_blank" rel="noopener" href="https://github.com/sogou/SMRCToolkit">https://github.com/sogou/SMRCToolkit</a> ，它提供了CMRC2018的模块</p>
+</li>
+<li><p>blocksparse，一个用于块稀疏矩阵乘法和卷积的高效GPU内核， <a target="_blank" rel="noopener" href="https://github.com/openai/blocksparse">https://github.com/openai/blocksparse</a></p>
+</li>
+<li><p>SentencePiece(spm)，字词混合模型。作为一个高性能的无监督文本词条化工具，可以通过EM算法为预训练提供基于统计的高效分词。事实上xlnet即是用这个来进行分词的。 <a target="_blank" rel="noopener" href="https://github.com/google/sentencepiece">https://github.com/google/sentencepiece</a> 。</p>
+<p>通过平安的模型，得知：基于 <strong>sentencepiece</strong>统计得到的 <strong>字词混合模型</strong> 能够基本解决词模型unk的问题，并且在预训练中远优于传统分词+统计得到的词模型。</p>
+</li>
+<li><p>中文bert预训练：<a target="_blank" rel="noopener" href="https://github.com/ymcui/Chinese-BERT-wwm">https://github.com/ymcui/Chinese-BERT-wwm</a>  </p>
+</li>
+</ul>
+<h5 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h5><ul>
+<li><p>搜索引擎</p>
+</li>
+<li><p>客服</p>
+</li>
+<li><p>金融教育领域，有大量非结构化的文本</p>
+<p>比如金融有很多公告类型的数据，纯靠人工提取知识点，并且由于长尾效应，难以覆盖到用户需要的所有点。依托阅读理解，机器可以直接从非结构化数据中提取到用户所需要的信息点。</p>
+<p>CMRC2019对⾦融⻛控领域， 针对企业年报中关键⾦融要素， 抽取原因语句和相关段落的任务起到帮助 </p>
+</li>
+</ul>
+<h3 id="1-冠军：平安金融"><a href="#1-冠军：平安金融" class="headerlink" title="1 冠军：平安金融"></a>1 冠军：平安金融</h3><h4 id="纲要"><a href="#纲要" class="headerlink" title="纲要"></a>纲要</h4><ul>
+<li><p>如何更好地学习到<strong>句子之间的连贯性</strong>？——SI（Sentence Insertion）</p>
+</li>
+<li><p>非独立性条件下，合理的<strong>预测方式</strong></p>
+</li>
+<li><p><strong>中文</strong>NLP任务是否还需要<strong>分词</strong>？ ——SentencePiece</p>
+</li>
+<li><p>预训练模型中连贯性知识的进一步强化 —— SDRP</p>
+</li>
+<li><p>预训练模型的<strong>领域迁徙</strong> ——SSI</p>
+</li>
+</ul>
+<h4 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h4><p>看来这也是单choice预测策略</p>
+<p><img src="https://i.loli.net/2020/04/05/DhSkrxAN7fQiCw8.png"></p>
+<h4 id="核心"><a href="#核心" class="headerlink" title="核心"></a>核心</h4><p><strong>优化</strong></p>
+<p>针对BERT占用显存的地方优化</p>
+<ul>
+<li>使用blocksparse</li>
+<li>避免对大tensor进行dropout</li>
+</ul>
+<p><strong>预训练语料</strong></p>
+<p>使用多源数据重训练bert，在官方中文BERT使用中文wiki基础上，采集了百科、新闻、知乎等多源数据</p>
+<h5 id="连贯性学习"><a href="#连贯性学习" class="headerlink" title="连贯性学习"></a>连贯性学习</h5><p>主题相同的情况下，学习句子的连贯性，并且还要学会拒绝不连贯的句子。</p>
+<h6 id="SiBert"><a href="#SiBert" class="headerlink" title="SiBert"></a>SiBert</h6><p><strong>Sentence Insertion（SI代替NSP）</strong></p>
+<p>NSP学到的更多是主题信息而不是连贯性信息（根据ALBert研究），因此这里替换NSP为SI；而cmrc2019<u>句子位置预测</u>本身就是一个可用于预训练的<u>自监督方法</u>，能够有效补充<strong>语言模型对<em>连贯性</em> 和 <em>顺序学习</em> 的需求</strong>。</p>
+<p>SI能学习到在判断 <strong>主题相同</strong>的情况下，句子放在哪里最连贯。也就是通过创新输入方式，来进行训练。</p>
+<p><img src="https://i.loli.net/2020/04/05/K5tZYDBApsEbfLQ.png"></p>
+<p>其中，sentence2是其他文档的句子，sentence1-3等是该篇文章，然后mask sentence B的部分，是该篇文章的信息就能学到句子连贯性，不是该篇文章的信息就能学到排除。</p>
+<p><strong>SiBert结果与动态mask</strong></p>
+<ul>
+<li><p>在SiBert基础上基于 <strong>全词MASK</strong>继续fine-tune</p>
+</li>
+<li><p><strong>全词mask[1]</strong> 与 英文中的ngram-mask相对应，在**spanBert[2]**中表示该方法对MRC提升显著</p>
+</li>
+</ul>
+<img src="https://i.loli.net/2020/04/05/ybPlfa7WBhNuUL8.png" style="zoom:67%;" />
+
+
+
+
+
+<h6 id="负样本的连贯性"><a href="#负样本的连贯性" class="headerlink" title="负样本的连贯性"></a>负样本的连贯性</h6><p>受到ERNIE2.0[3]的启发，我们为模型新增了Sentence-Document Relation Prediction(<strong>SDRP</strong>)任务。使得模型针对<strong>负样本</strong>不仅仅专注于主题，更能判别它们的<strong>连贯性</strong>。下图结果称为3SiBert（2SiBert见下文），也是在输入构成上做文章。</p>
+<p><img src="https://i.loli.net/2020/04/07/RhbtLyYATc2CgUV.png"></p>
+<h5 id="非独立性的预测方式"><a href="#非独立性的预测方式" class="headerlink" title="非独立性的预测方式"></a>非独立性的预测方式</h5><p>因为多个choice之间也会提示信息（比如顺序关系，会有对比信息，6estates也有用到这个启发），从而在推断过程中相互提供有效信息得到答案，因此每个choice之间的预测不应该是独立的。</p>
+<p>原始的独立的预测目标：</p>
+<img src="https://i.loli.net/2020/04/05/3qJyBoOjdTE76fH.png" style="zoom:67%;" />
+
+<p><strong>动态预测</strong></p>
+<p>在推断的阶段，逐渐还原文本，增加先验信息，从而动态预测目标。</p>
+<p><img src="https://i.loli.net/2020/04/05/kpmrPMKlVhJRxaA.png"></p>
+<h5 id="文本长度与分词"><a href="#文本长度与分词" class="headerlink" title="文本长度与分词"></a>文本长度与分词</h5><p><strong>问题</strong></p>
+<p>文本长度过长（＞512），限制模型性能，因此要探索如何 <strong>无损缩减长度</strong>， 可以用到 <strong>SentencePiece</strong>[spm]分词工具来降低context文本长度，并得到字词混合模型，能够基本解决词模型unk的问题。</p>
+<p><strong>SentencePiece</strong></p>
+<p>高性能的无监督文本词条化工具，可以通过EM算法为预训练提供基于统计的高效分词，并得到字词混合模型，能够基本解决词模型unk的问题。下图里，分词后context长度明显降低。（2SiBert）</p>
+<img src="https://i.loli.net/2020/04/06/7c3zfHh4QvnMubO.png" style="zoom: 80%;" />
+
+<p>Sibert vs 2Sibert结论：</p>
+<ul>
+<li>基于sentencepiece统计得到的字词混合模型能够基本解决词模型UNK的问题，在预训练中远优于传统分词+统计得到的词模型。</li>
+<li>Token level的分类任务(阅读理解，NER等)，字模型&gt;&gt;词模型。</li>
+</ul>
+<h5 id="动态数据增强与领域迁移"><a href="#动态数据增强与领域迁移" class="headerlink" title="动态数据增强与领域迁移"></a>动态数据增强与领域迁移</h5><p>为了使得预训练模型更贴近cmrc2019的任务，在之前预训练模型的基础上把Sentence Insertion任务替换为短句抽取(<strong>Short Sentence Insertion, SSI</strong>)，进一步训练了500k步。</p>
+<p><img src="https://i.loli.net/2020/04/05/HhA8WYNq7str3C2.png"></p>
+<h4 id="消融实验"><a href="#消融实验" class="headerlink" title="消融实验"></a>消融实验</h4><p><img src="https://i.loli.net/2020/04/05/38HFotdpklg7Ky5.png"></p>
+<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><ul>
+<li><p>预训练</p>
+<p>BERT模型优化，预训练语料丰富化；<strong>Sentence Insertion</strong> 和 <strong>全词mask</strong>任务；句子篇章关系预测任务；预训练模型的领域迁移</p>
+</li>
+<li><p>数据增强</p>
+<p>简单负样本增强；动态数据增强（配合SDRP）</p>
+</li>
+<li><p>数据处理</p>
+<p>SentencePiece字词混合模型； 动态预测</p>
+</li>
+</ul>
+<h3 id="2-亚军：顺丰-Mojito-System"><a href="#2-亚军：顺丰-Mojito-System" class="headerlink" title="2 亚军：顺丰 Mojito System"></a>2 亚军：顺丰 Mojito System</h3><h4 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h4><ul>
+<li>数据清理</li>
+<li>增加假答案</li>
+<li>候选答案回填（判断句子 <strong>合理性、连贯性</strong>）</li>
+<li>多**[mask]填充**（与掩码语言模型保持一致性、一定程度上还原候选答案与上下文的相对距离）</li>
+</ul>
+<p><img src="https://i.loli.net/2020/04/05/utvSGrQMOIP8byn.png"></p>
+<p>区分mask和blank哦</p>
+<h4 id="预训练"><a href="#预训练" class="headerlink" title="预训练"></a>预训练</h4><p><img src="https://i.loli.net/2020/04/05/gzp1vXYZyENBesT.png"></p>
+<h4 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h4><p><img src="https://i.loli.net/2020/04/05/Mnwya1HrfkNWCPo.png"></p>
+<p><img src="https://i.loli.net/2020/04/05/RzT7cPtryxd4XmM.png"></p>
+<p><strong>Margin Loss</strong></p>
+<p>候选答案是一个 <strong>合理性排序问题</strong>！ 而不是分类问题</p>
+<img src="https://i.loli.net/2020/04/05/lD7W84o1HTvxn9t.png" style="zoom:67%;" />
+
+<p><strong>知识蒸馏</strong>，重生网络，对应的loss</p>
+<p><img src="https://i.loli.net/2020/04/05/1hMJGa4FSfulCLP.png"></p>
+<h4 id="预测策略"><a href="#预测策略" class="headerlink" title="预测策略"></a>预测策略</h4><p>关键是构造这个候选答案的<strong>得分矩阵</strong>（下文6estates的是choice-unused矩阵，反正关键是构建矩阵），在这个基础上采用 <strong>差值排序</strong>。</p>
+<p>有图知，答案的选择策略有两种，一种的方案A直接取最高分，还有一种是方案B采用差值排序选择。</p>
+<img src="https://i.loli.net/2020/04/05/nH1khN7Z8KReYEq.png" style="zoom:80%;" />
+
+<h4 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h4><img src="https://i.loli.net/2020/04/05/oah2jvKuZGXD8Wm.png" style="zoom:80%;" />
+
+<p>总之有和其他模型的对比；自己的消融分析；采用不同预训练语言模型的对比；采用集成模型的对比</p>
+<h4 id="错误分析"><a href="#错误分析" class="headerlink" title="错误分析"></a>错误分析</h4><p>对于需要一些推理的blank（好像不同的方法叫法不同，在6esetate里不知道是不是又处理了，叫作unsed），观察出缺乏一定<u>知识推理能力</u>；候选答案无法区分，答案都合理；预测方案不同导致不同的预测答案；关键上下文缺失的情况下，已有信息无法得到真正的答案；语序方面的问题；</p>
+<h3 id="3-季军：6Estates"><a href="#3-季军：6Estates" class="headerlink" title="3 季军：6Estates"></a>3 季军：6Estates</h3><h4 id="数据集分析"><a href="#数据集分析" class="headerlink" title="数据集分析"></a>数据集分析</h4><p><strong>问题</strong></p>
+<ol>
+<li>数据不充分；</li>
+<li>TTD数据问题数量分布差异； （结合1，所以可以考虑自己增加一些数据集）</li>
+<li>TTD 文本长度分布也有差异；</li>
+<li>相似文本值得答案有所泄露或者互相干扰</li>
+</ol>
+<p><img src="https://i.loli.net/2020/04/06/9HdDV8a1JTmf4OA.png"></p>
+<p><img src="https://i.loli.net/2020/04/06/EzhQG2up7XsZ1rR.png"></p>
+<img src="https://i.loli.net/2020/04/06/TDLKZ5zhopAseq2.png" style="zoom:80%;" />
+
+
+
+
+
+<h4 id="策略与方法"><a href="#策略与方法" class="headerlink" title="策略与方法"></a>策略与方法</h4><p><strong>策略</strong></p>
+<ul>
+<li>改进bert</li>
+<li>增加数据量，并调整数据分布（研究一下）</li>
+<li>尝试不同预训练任务</li>
+<li>问题转化为针对context构建 <strong>choice-unused</strong> 概率矩阵</li>
+<li>分别以choice 和 unused 为中心构建不同模型进行预测</li>
+</ul>
+<p>矩阵如图：</p>
+<img src="https://i.loli.net/2020/04/06/QrpsoT63IWZOh9R.png" style="zoom:90%;" />
+
+
+
+<h5 id="数据集扩充，分布调整"><a href="#数据集扩充，分布调整" class="headerlink" title="数据集扩充，分布调整"></a>数据集扩充，分布调整</h5><ul>
+<li>从故事网等网站抓取更多相关文本；删去trail/dev/qualify中的相似文本；</li>
+<li>问题可以包含符号，字符长度15-30，问题数量5-15；不允许采样时出现相似文本，从而生成新的数据集</li>
+</ul>
+<h5 id="预训练-1"><a href="#预训练-1" class="headerlink" title="预训练"></a>预训练</h5><p>预训练的几种objective，这就涉及多任务学习的范畴</p>
+<ul>
+<li>在新数据上⽣成了⼤约600W预训练数据  </li>
+<li>Mask Prediction 1（character level）  </li>
+<li>Mask Prediction 2 （word level）  </li>
+<li>Next Sentence Prediction</li>
+<li>Mask Sentence Prediction  </li>
+</ul>
+<img src="https://i.loli.net/2020/04/06/JRlrbdkp2MafTuW.png" style="zoom:67%;" />
+
+<img src="https://i.loli.net/2020/04/06/AGjzlx6UrNw18K9.png" style="zoom:67%;" />
+
+
+
+<h5 id="单个choice拼接预测"><a href="#单个choice拼接预测" class="headerlink" title="单个choice拼接预测"></a>单个choice拼接预测</h5><p>将单个choice放入一个example中，从而训练新的预训练模型。</p>
+<p>由此产生发方法有：</p>
+<ul>
+<li>model1 : 新的预训练模型</li>
+<li>model2 : 新的与训练模型 + 更大训练集</li>
+<li>model3 : 加⼊更多中间层， 在最终输出层之前增加更⾼概率的Dropout  </li>
+<li>model4 : 增加单独的输出和Attention⽤来<strong>检测是否为假的Choice</strong>   （这个和平安的有所相似）</li>
+</ul>
+<img src="https://i.loli.net/2020/04/06/RvmdVqbeLH8lcDQ.png" style="zoom: 67%;" />
+
+
+
+<h5 id="多个choice拼接预测"><a href="#多个choice拼接预测" class="headerlink" title="多个choice拼接预测"></a>多个choice拼接预测</h5><p>所有choice都放入一个example中，从而建模的时候做choice rep和unused rep的text pooling</p>
+<img src="https://i.loli.net/2020/04/06/fvImiAlHwo52TkE.png" style="zoom:80%;" />
+
+<img src="https://i.loli.net/2020/04/06/SkPHhfbmxTrANYZ.png" style="zoom:80%;" />
+
+<h5 id="多choice-vs-单choice"><a href="#多choice-vs-单choice" class="headerlink" title="多choice vs 单choice"></a>多choice vs 单choice</h5><ul>
+<li>当需要⻓⽂本上下⽂来辅助判断时，同样max_seq_len情况下多 choice模型能够建模的context⻓度⼤⼤减少  （可以结合xlnet的自回归建模方式处理长文档）</li>
+<li>当存在有多个空位距离较近时， 需要更多的<strong>choice之间的对⽐信息</strong>（顺丰也考虑到这个，就是choice之间的关系）才能辅助确定空位应该填⼊的choice  </li>
+</ul>
+<h5 id="集成模型"><a href="#集成模型" class="headerlink" title="集成模型"></a>集成模型</h5><ol>
+<li>单choice和多choice模型预测<strong>概率线性回归</strong>  </li>
+<li>根据choice预测概率和choice部分⽂本在context中的出现情况判断是否直接排除该choice  </li>
+<li>将置信度较⾼的choice填⼊context中， 构建新的case， <strong>迭代式预测</strong>  </li>
+</ol>
+<h4 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h4><ul>
+<li>长文档，xlnet的自回归思想建模方式，处理更长文本</li>
+<li>多choice模型中增加更合适的pairwise loss，使得模型能在choice选取中更有区分度</li>
+</ul>
+<h3 id="4-季军：哈工大"><a href="#4-季军：哈工大" class="headerlink" title="4 季军：哈工大"></a>4 季军：哈工大</h3><h4 id="模型架构"><a href="#模型架构" class="headerlink" title="模型架构"></a>模型架构</h4><img src="https://i.loli.net/2020/04/06/lPskJtxyvHKWDF8.png" style="zoom:80%;" />
+
+<p><strong>创新点：</strong></p>
+<p>个人感觉主要是在<u>数据</u>、训练方式上做加法，模型架构没有什么创新</p>
+<ol>
+<li><p>提出了一种填空型阅读理解任务的<strong>通用数据增强方法</strong></p>
+</li>
+<li><p>在特定任务数据上<strong>精调 LM</strong> 明显地提升了语言模型对该任务的表达能力</p>
+</li>
+<li><p>学习率的领域自适应与三角周期性学习</p>
+</li>
+<li><p>数据增强与原始数据的<strong>混合模式选择</strong></p>
+</li>
+</ol>
+<p><strong>优点</strong></p>
+<ul>
+<li>单模型，训练及推理效率高</li>
+<li>通用数据增强方法可使用<strong>其他领域数据做迁移</strong>或者<strong>从任意领域无监督数据直接生成训练集</strong></li>
+</ul>
+<p><strong>改进</strong></p>
+<ul>
+<li>模型结构上有待进一步改进，如加入更能<u>表征句子位置的结构</u></li>
+<li>对每个样本的多个 choice 位置的损失加入整体性约束</li>
+</ul>
+<h4 id="数据增强"><a href="#数据增强" class="headerlink" title="数据增强"></a>数据增强</h4><ol>
+<li><p>重排填空位置</p>
+<p><img src="https://i.loli.net/2020/04/07/r8EXhDtlMQejGB2.png"></p>
+</li>
+<li><p>Back Translate</p>
+<ul>
+<li>zh-&gt;en-&gt;zh：保持 [BLANK] 位置不变</li>
+<li>最佳增强倍数 N=1：使用重排对每个样本生成1个增强数据</li>
+</ul>
+</li>
+</ol>
+<h4 id="学习率"><a href="#学习率" class="headerlink" title="学习率"></a>学习率</h4><p><strong>学习率领域自适应</strong></p>
+<p><img src="https://i.loli.net/2020/04/07/7afWR2s9MlmTvDi.png"></p>
+<p><strong>三角周期学习率</strong>：学习率按照三角规律周期性变化</p>
+<h4 id="训练方法-1"><a href="#训练方法-1" class="headerlink" title="训练方法"></a>训练方法</h4><img src="https://i.loli.net/2020/04/07/LrJHgYxc5e3PKQz.png" style="zoom:67%;" />
+
+<h4 id="数据增强与原始数据的-混合模式-选择"><a href="#数据增强与原始数据的-混合模式-选择" class="headerlink" title="数据增强与原始数据的 混合模式 选择"></a>数据增强与原始数据的 混合模式 选择</h4><ol>
+<li><p>增强数据与目标数据领域完全一致</p>
+<img src="https://i.loli.net/2020/04/07/mvLkRPVIji4CFlz.png" style="zoom:67%;" />
+</li>
+<li><p>增强数据与目标数据领域有差异</p>
+<ul>
+<li>适合迁移：增强数据模型-&gt;目标数据模型</li>
+<li><strong>stage_wise</strong>: 从距离最远的优先训练，依次迁移到距离较近的增强数据，最后迁移到目标数据，这样有效利用其它领域信息并减少遗忘</li>
+</ul>
+</li>
+<li><p>该句子填空任务的增强数据与目标数据领域完全一致</p>
+<p><img src="https://i.loli.net/2020/04/07/7ywZhm6NodjpSUD.png"></p>
+</li>
+</ol>
+<h4 id="排除干扰项"><a href="#排除干扰项" class="headerlink" title="排除干扰项"></a>排除干扰项</h4><img src="https://i.loli.net/2020/04/07/VeYMd2Hg5U3QCbS.png" style="zoom: 67%;" />
+
+<h4 id="实验结果-1"><a href="#实验结果-1" class="headerlink" title="实验结果"></a>实验结果</h4><img src="https://i.loli.net/2020/04/07/SY7sKgNJl4z8eLj.png" style="zoom:67%;" />
+
+
+
+<h3 id="5-季军：CICC"><a href="#5-季军：CICC" class="headerlink" title="5 季军：CICC"></a>5 季军：CICC</h3><h4 id="实验结果和消融分析"><a href="#实验结果和消融分析" class="headerlink" title="实验结果和消融分析"></a>实验结果和消融分析</h4><img src="https://i.loli.net/2020/04/07/qovx3YpsjhrgmyC.png" style="zoom:67%;" />
+
+<p>由上图知：</p>
+<ul>
+<li><p>增加假例子：每篇文章会从上一篇文章抽一个句子作为假例子</p>
+</li>
+<li><p>domain pretrain</p>
+<img src="https://i.loli.net/2020/04/07/NkSHlsXVUnguJdx.png" style="zoom:67%;" />
+</li>
+<li><p>mix pretrain</p>
+</li>
+<li><p>阅读理解策略</p>
+<img src="https://i.loli.net/2020/04/07/JfVN54x9sKlB6ir.png" style="zoom:67%;" />
+</li>
+<li><p>三模型融合</p>
+<img src="https://i.loli.net/2020/04/07/yoaGfIJknuw1WRe.png" style="zoom: 80%;" />
+
+<h4 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h4><p><strong>如何打破模型训练消耗大对想法尝试的束缚</strong>：</p>
+<p>使用相同原理的tiny模型做benchmark,在其基础上做对比实验，最后应用到大模型上。</p>
+<p><strong>多层级任务的pretrain——字、词、句</strong></p>
+<img src="https://i.loli.net/2020/04/07/BDcTEodK4yFbCa8.png" style="zoom:67%;" />
+
+</li>
+</ul>
+<h3 id="6-启发"><a href="#6-启发" class="headerlink" title="6 启发"></a>6 启发</h3><p><strong>动机</strong>出发，比如探索更好的MRC落地应用，或者探索PTM的新的任务。通过改进不同模型的缺点来找到创新点和推动发展。</p>
+<p>根据具体数据集<strong>任务分析</strong>数据集好像是个之前被我很忽略的一个点，这里好几个队伍都对进行了数据集的分析，从而观察数据集的分布、选项、长度、数据数量、重复项，判断选项之间的顺序性或者独立性影响，选项与上下文之间的影响作用，这都是我之前没有考虑到的！分析任务是个首当其中的大事啊！分析任务还包括分析任务的难点，比如这个任务的难点就包括句子连贯性的学习，因此针对连贯性，冠军也亚军团队都有自己的连贯性学习方案，具体见上文因为这里我突然想不起来了（记性真的好差，因此要多回顾呀）。</p>
+<p>每个模型基本都使用了<strong>数据增强</strong>来拓展数据集，其中包括增强方案、领域迁移、back translate、生成假数据、假答案、简单粗暴抓取数据等不同的拓展数据的方式与数据混合方式，并且对原始的数据与生成的数据也要做进一步的<strong>处理</strong>比如分布调整、去重等，但我对这些方面的认识还是十分模糊！如果要做中文MRC任务，这方面我还要多下点功夫研究和归纳一下，数据的扩充和处理是个大任务！</p>
+<p>在模型的输入上面，也有讲究（尤其是平安科技），比如输入的数据来源策略、组合方式、怎么mask、是否进行数据增强等，是否有分词（如果有分词，那么分词工具是什么？分词粒度是什么？）善用[cls]的信息哦，这对模型的效果也有很大影响。输出预测方式上也有tips。</p>
+<p>适合中文任务的<strong>预训练模型</strong>也要了解哦，比如常用的bert-wwm，这是个啥玩意？快去搞！（搞了搞了）</p>
+<p>spanBert似乎是2019的实用方法，在mask词上有所帮助；总之在<strong>语言模型</strong>的 <strong>mask</strong> 上面要看些论文了，估计其中一部分论文还要从预训练模型里面找。</p>
+<p>采用<strong>Post-training</strong>的multi-task方法再次在顺丰的模型上证明，多任务学习的损失loss的设计，涉及数学知识的部分如何把握？还有有点担心计算量，又预训练又post training的，我们学校的服务器能跑多少？还是只能跑fine-tune？也许这需要一个很轻便的预训练模型吧？这点要找学长问问，以及问问学长做过哪些训练实验，如果能发现能直接拿来用的实验结果就更好了。看到CICC那边对于到模型消耗大的反思，我也要有所启发，比如如何构建一个相同原理的tiny模型来组benmark？</p>
+<p>上面也设计到训练方式，训练方式里的各种<strong>蒸馏</strong>也可以了解一下呢，知识蒸馏是啥？快去看呐。</p>
+<p>中文MRC的训练单位，及词、字作为输入单位的不同特点，中文还是需要分词的；而在cicc看到多层级的任务的预训练：<strong>字、词、句</strong>，这方面学习到的知识如何抽取和融合利用，也要探索。</p>
+<p>大部分模型的输入，好像还是单个choice拼接context的，学习打分的矩阵很关键，即得到一个交融的矩阵还是很重要的；模型的<strong>预测目标设计</strong>上，要针对数据集的特点，思考要让模型学到什么。并且预测的类型也可以不一样，比如多选题的目标可以是分类，而又可以是一个排序问题（多个选项中找最高可能）；</p>
+<p>最后还要拥有一种 <strong>分析思想</strong>，要总结经典套路的<strong>消融分析</strong>、<strong>错误分析</strong>方式，还要结合模型特点和创新点来设置分析对比实验，并且还可以从任务特点来做分析，比如CICC的对不同位置的结果也可以做分析，总之能找出问题的话，就可以找出可改进的地方。在消融分析上做减法或者做加法都可，涉及的组件比如预训练组件、语言模型差异、数据的增强方法（比如领域迁移、假答案等）、训练方式的不同（比如融合模型）。总之这里的分析思想也和上面的任务分析思想对应，要多分析，多思考，想不出来抱大腿（不是。</p>
+<p>看论文的时候不仅要学会找能用的东西，还要思考自己能不能创新？就是既要思考模型的优点，更要找到模型的缺点，但是目前我好像还是只在汲取知识的阶段，缺点根本看不出来好伐。。因为要看的太多了，找到一些可用的素材就已经很难，找到关系更是难上加难，如果要创新的话，怎么站在巨人的肩膀上？更如何在错综复杂的关系里选择合适的轮子？如果专注于造轮子的话如何稳住心态不会崩？</p>
+<h3 id="7-参考"><a href="#7-参考" class="headerlink" title="7 参考"></a>7 参考</h3><h4 id="网页"><a href="#网页" class="headerlink" title="网页"></a>网页</h4><p><a target="_blank" rel="noopener" href="https://www.leiphone.com/news/201811/3KC2OSaNQDzhTDDJ.html">https://www.leiphone.com/news/201811/3KC2OSaNQDzhTDDJ.html</a></p>
+<p>雷锋网的RC进阶：<a target="_blank" rel="noopener" href="https://www.leiphone.com/news/201811/wr62uxvN0dJDbLwF.html">https://www.leiphone.com/news/201811/wr62uxvN0dJDbLwF.html</a> ，2018</p>
+<p>从字到词，大词典中文BERT模型的探索之旅，<a target="_blank" rel="noopener" href="https://www.jiqizhixin.com/articles/2019-06-27-17?from=synced&amp;keyword=%E8%AF%8D%E5%90%91%E9%87%8FBERT">https://www.jiqizhixin.com/articles/2019-06-27-17?from=synced&amp;keyword=%E8%AF%8D%E5%90%91%E9%87%8FBERT</a></p>
+<h4 id="ppt提到的论文"><a href="#ppt提到的论文" class="headerlink" title="ppt提到的论文"></a>ppt提到的论文</h4><ul>
+<li><p>[1] Cui, Yiming, et al. “Pre-Training with Whole Word Masking for Chinese BERT.” arXiv preprint arXiv:1906.08101 (2019) 【中文预训练BERT-wwm】</p>
+</li>
+<li><p>[2] Joshi M, Chen D, Liu Y, et al. Spanbert: Improving pre-training by representing and predicting spans[J]. arXiv preprint arXiv:1907.10529, 2019.  【 平安、顺丰，动态mask和spanmask】</p>
+</li>
+<li><p>[3] Sun, Yu, et al. “Ernie 2.0: A continual pre-training framework for language understanding.” arXiv preprint arXiv:1907.12412 (2019).</p>
+</li>
+<li><p>[4] Li, Xiaoya, et al. “Is word segmentation necessary for deep learning of Chinese representations?.” Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics. 2019.</p>
+</li>
+<li><p>[5] Furlanello T, Lipton Z C, Tschannen M, et al. Born again neural networks. International Conference on Machine Learning (ICML), 2018  【重生网络】【知识蒸馏】</p>
+</li>
+<li><p>[6] Clark K, Luong M T, Khandelwal U, et al. Bam! born-again multi-task networks for natural language understanding. Association for Computational Linguistics (ACL), 2019.  【重生网络的一种策略】</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/08/26/KMRC%EF%BC%88%E6%9B%B4%E6%96%B0%E4%B8%AD%EF%BC%89/" rel="next" title="">
+                   <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+  
+  
+  
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Changreal</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

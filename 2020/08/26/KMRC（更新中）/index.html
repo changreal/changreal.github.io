@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/zrmm.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/zrmm.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/zrmm.jpg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+
+  <meta name="description" content="KMRC[TOC] Knowledge Resources分类为了理解自然语言，需要语言学知识来确定文本的句法、语义结构，再进一步使用通识、常识知识来增强对结构的理解，知识可以为分为： linguistic knowledge annotated linguistic corpora lecical resources，比如wordNet, VerbNet, FrameNet  各种类型的语义信息">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Changreal">
+<meta property="og:url" content="http://yoursite.com/2020/08/26/KMRC%EF%BC%88%E6%9B%B4%E6%96%B0%E4%B8%AD%EF%BC%89/index.html">
+<meta property="og:site_name" content="Changreal">
+<meta property="og:description" content="KMRC[TOC] Knowledge Resources分类为了理解自然语言，需要语言学知识来确定文本的句法、语义结构，再进一步使用通识、常识知识来增强对结构的理解，知识可以为分为： linguistic knowledge annotated linguistic corpora lecical resources，比如wordNet, VerbNet, FrameNet  各种类型的语义信息">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/07/10/4sXUSpl1NfKwDHh.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/10/bxJnNGgLqfipeYC.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/10/LPoKjGZEpl69Vm3.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/10/ZV2Dw173rFEQAJ8.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/09/SVBovZILxCqaKRl.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/09/sn3PLKX9kMltUEY.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/09/E6asnHX9IU1G7Bd.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/09/mPOfvkyYt1H9rei.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/28/uCYBDjF65g9qbSf.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/28/LVxhEAwJTnk9WDl.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/29/u9WVrjwsIcPk1zT.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/29/THpLfwO35unNzDW.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/29/ep4aU7jRygTfiNZ.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/29/5UsQZLnDpqPbSyH.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/29/j4pzL8IaVubhco9.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/22/AMvON5bmCjFKefg.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/22/LmyQ6xdgzvAoBF3.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/22/s9vCK6kadcoglXH.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/22/JB4dlxfVbM9286h.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/22/dk5VPmNZGDv7YU9.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/22/GqjAUmFtNMSYVB3.png">
+<meta property="article:published_time" content="2020-08-26T14:13:13.582Z">
+<meta property="article:modified_time" content="2020-08-26T14:12:58.092Z">
+<meta property="article:author" content="Changreal">
+<meta property="article:tag" content="rrz的动感地带">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/07/10/4sXUSpl1NfKwDHh.png">
+
+
+<link rel="canonical" href="http://yoursite.com/2020/08/26/KMRC%EF%BC%88%E6%9B%B4%E6%96%B0%E4%B8%AD%EF%BC%89/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title> | Changreal</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Changreal</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">睿睿的动感地带</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#KMRC"><span class="nav-number">1.</span> <span class="nav-text">KMRC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Knowledge-Resources%E5%88%86%E7%B1%BB"><span class="nav-number">1.1.</span> <span class="nav-text">Knowledge Resources分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#linguistic-knowledge"><span class="nav-number">1.1.1.</span> <span class="nav-text">linguistic knowledge</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#common-knowledge"><span class="nav-number">1.1.2.</span> <span class="nav-text">common knowledge</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#commonsenses-knowledge"><span class="nav-number">1.1.3.</span> <span class="nav-text">commonsenses knowledge</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-EMNLP-Pingan-Smart-Health-and-SJTU-at-COIN-Shared-Task-utilizing-Pre-trained-Language-Models-and-Common-sense-Knowledge-in-Machine-Reading-Tasks"><span class="nav-number">1.2.</span> <span class="nav-text">2019 EMNLP_Pingan Smart Health and SJTU at COIN - Shared Task: utilizing Pre-trained Language Models and Common-sense Knowledge in Machine Reading Tasks</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%9C%BA"><span class="nav-number">1.2.1.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A6%82%E8%A6%81"><span class="nav-number">1.2.2.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C"><span class="nav-number">1.2.3.</span> <span class="nav-text">实验</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2020-arXiv-K-ADAPTER-Infusing-Knowledge-into-Pre-Trained-Models-with-Adapters"><span class="nav-number">1.3.</span> <span class="nav-text">2020 arXiv_K-ADAPTER: Infusing Knowledge into Pre-Trained Models with Adapters</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A6%82%E8%A6%81-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%96%B9%E6%B3%95"><span class="nav-number">1.3.2.</span> <span class="nav-text">模型方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%91PTMs%E9%87%8C%E6%B3%A8%E5%85%A5%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">向PTMs里注入知识梳理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%84"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">模型结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">连接方式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E6%B3%A8%E5%85%A5"><span class="nav-number">1.3.2.4.</span> <span class="nav-text">知识注入</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C-1"><span class="nav-number">1.3.3.</span> <span class="nav-text">实验</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C-2"><span class="nav-number">1.3.4.</span> <span class="nav-text">实验</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2020-SIGDIAL-Commonsense-Evidence-Generation-and-Injection-in-Reading-Comprehension"><span class="nav-number">1.4.</span> <span class="nav-text">2020_SIGDIAL_Commonsense Evidence Generation and Injection in Reading Comprehension</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%9C%BA%E3%80%81%E8%B4%A1%E7%8C%AE%E3%80%81%E5%90%AF%E5%8F%91"><span class="nav-number">1.4.1.</span> <span class="nav-text">动机、贡献、启发</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A6%82%E8%A6%81-2"><span class="nav-number">1.4.2.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E4%B8%8E%E5%85%AC%E5%BC%8F"><span class="nav-number">1.4.3.</span> <span class="nav-text">模型与公式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C-3"><span class="nav-number">1.4.4.</span> <span class="nav-text">实验</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-ACL-Explicit-Utilization-of-General-Knowledge-in-Machine-Reading-Comprehension"><span class="nav-number">1.5.</span> <span class="nav-text">2019 ACL_Explicit Utilization of General Knowledge in Machine Reading Comprehension</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%9C%BA-1"><span class="nav-number">1.5.1.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A6%81%E7%82%B9"><span class="nav-number">1.5.2.</span> <span class="nav-text">要点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.5.3.</span> <span class="nav-text">模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C-4"><span class="nav-number">1.5.4.</span> <span class="nav-text">实验</span></a></li></ol></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Changreal"
+      src="/images/zrmm.jpg">
+  <p class="site-author-name" itemprop="name">Changreal</p>
+  <div class="site-description" itemprop="description">博客</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/26/KMRC%EF%BC%88%E6%9B%B4%E6%96%B0%E4%B8%AD%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zrmm.jpg">
+      <meta itemprop="name" content="Changreal">
+      <meta itemprop="description" content="博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Changreal">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2020-08-26 22:13:13 / Modified: 22:12:58" itemprop="dateCreated datePublished" datetime="2020-08-26T22:13:13+08:00">2020-08-26</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="KMRC"><a href="#KMRC" class="headerlink" title="KMRC"></a>KMRC</h2><p>[TOC]</p>
+<h3 id="Knowledge-Resources分类"><a href="#Knowledge-Resources分类" class="headerlink" title="Knowledge Resources分类"></a>Knowledge Resources分类</h3><p>为了理解自然语言，需要语言学知识来确定文本的句法、语义结构，再进一步使用通识、常识知识来增强对结构的理解，知识可以为分为：</p>
+<h4 id="linguistic-knowledge"><a href="#linguistic-knowledge" class="headerlink" title="linguistic knowledge"></a>linguistic knowledge</h4><ul>
+<li>annotated linguistic corpora</li>
+<li>lecical resources，比如wordNet, VerbNet, FrameNet</li>
+</ul>
+<p><strong>各种类型的语义信息</strong></p>
+<ul>
+<li>POS, NER embeddings</li>
+<li>semantic connections ，比如同义词</li>
+<li>structural embeddings，比如基于parsing trees来构造input embeddings</li>
+</ul>
+<h4 id="common-knowledge"><a href="#common-knowledge" class="headerlink" title="common knowledge"></a>common knowledge</h4><p>需要specific facts about the world that are often explicitly stated.</p>
+<h4 id="commonsenses-knowledge"><a href="#commonsenses-knowledge" class="headerlink" title="commonsenses knowledge"></a>commonsenses knowledge</h4><p>大多数人都知道，并不需要explicitly stated.</p>
+<p>有intuitive psychoogy, intuitive physics两种类型的常识，对人类推理和下决定起决定作用。</p>
+<p>common knowledge 与commonsenses knowledge的不同是，后者需要对语言中各种层次的概念有深度的理解</p>
+<h3 id="2019-EMNLP-Pingan-Smart-Health-and-SJTU-at-COIN-Shared-Task-utilizing-Pre-trained-Language-Models-and-Common-sense-Knowledge-in-Machine-Reading-Tasks"><a href="#2019-EMNLP-Pingan-Smart-Health-and-SJTU-at-COIN-Shared-Task-utilizing-Pre-trained-Language-Models-and-Common-sense-Knowledge-in-Machine-Reading-Tasks" class="headerlink" title="2019 EMNLP_Pingan Smart Health and SJTU at COIN - Shared Task: utilizing Pre-trained Language Models and Common-sense Knowledge in Machine Reading Tasks"></a>2019 EMNLP_Pingan Smart Health and SJTU at COIN - Shared Task: utilizing Pre-trained Language Models and Common-sense Knowledge in Machine Reading Tasks</h3><h4 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h4><h4 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h4><p>无代码</p>
+<p>模型：target task1：类似SemEval 2018 Task 11  ，target task2：ReCoRD  ，RACE,SWAG(后两者用于第一阶段微调)</p>
+<ul>
+<li><p>对于task1：用XLNet先在race上fine-tune，然后再在swag上fine-tune从而获得知识，最后再在target task上fine-tune（多阶段fine-tune）。</p>
+<blockquote>
+<p>这么设置的原因的race很大，为了能更好的泛化，swag数据集的queries和target  task很相似，并且需要常识推理，最后在task1上fine-tune能更好的收敛。</p>
+</blockquote>
+</li>
+<li><p>对于task2：吧ptm词嵌入和wordNet上下文词嵌入拼接，再采取一系列post-processing strategies来预测。</p>
+<blockquote>
+<p>fuse的过程：KG embedding 使用DisMult，首先使用Aho-Corasick算法把passage中的命名实体匹配到WordNet，然后P中在wordnet中有的token会给同样的向量，P中不在任何明明实体的token会给一个0向量。让后具体见下图。</p>
+</blockquote>
+</li>
+</ul>
+<p>task2模型结构与知识注入方式：</p>
+<img src="https://i.loli.net/2020/07/10/4sXUSpl1NfKwDHh.png" style="zoom:90%;" />
+
+
+
+<img src="https://i.loli.net/2020/07/10/bxJnNGgLqfipeYC.png" style="zoom:80%;" />
+
+
+
+<h4 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h4><img src="https://i.loli.net/2020/07/10/LPoKjGZEpl69Vm3.png" style="zoom:80%;" />
+
+<img src="https://i.loli.net/2020/07/10/ZV2Dw173rFEQAJ8.png" style="zoom:80%;" />
+
+<h3 id="2020-arXiv-K-ADAPTER-Infusing-Knowledge-into-Pre-Trained-Models-with-Adapters"><a href="#2020-arXiv-K-ADAPTER-Infusing-Knowledge-into-Pre-Trained-Models-with-Adapters" class="headerlink" title="2020 arXiv_K-ADAPTER: Infusing Knowledge into Pre-Trained Models with Adapters"></a>2020 arXiv_K-ADAPTER: Infusing Knowledge into Pre-Trained Models with Adapters</h3><h4 id="概要-1"><a href="#概要-1" class="headerlink" title="概要"></a>概要</h4><p><strong>动机</strong></p>
+<p>之前的知识引入预训练模型主要集中与通过设计 knowledge-driven 的训练目标来增强standard LM的训练目标，然后通过多任务学习的方式更新模型的全部参数，它们的问题是：</p>
+<ul>
+<li>无法进行终身学习（continual learning）<ul>
+<li>模型的参数在引入新知识的时候需要重新训练</li>
+<li>对于已经学到的知识来说，会造成灾难性遗忘（catastrophic forgetting）</li>
+</ul>
+</li>
+<li>模型产生的是耦合的表示（entangled representations）<ul>
+<li>为进一步探究引入不同知识的作用/影响带来困难</li>
+</ul>
+</li>
+</ul>
+<p>因此，作者提出了K-Adapter，以一种简单灵活的方式把知识infuse进PTMs，并且支持<strong>continual knowledge infusion</strong>和产生<strong>disentangled representations（耦合的表示）</strong>。具体而言就是，<strong>固定住预训练模型的参数</strong>，然后引入<strong>adapter（a neural adapter for each kind of infused knowledge）</strong>来接到预训练模型的输出上，每个adapter是独立的，针对不同的知识（比如factual knowledge，linguistic knowledge）<strong>各自独立预训练</strong>，从而实现知识引入。</p>
+<p>也就是说，Adapter可以看做是一个 knowledge-specific 模型，可以作为一个<strong>插件</strong>，加在PLM外部，输入包含PLM中间层输出的隐状态，一种知识类型对应于一个Adapter，一个PLM可以连接多个Adapter；</p>
+<p>the training process is memory efficient，并且结合roberta有很少的训练参数。</p>
+<p><strong>贡献</strong></p>
+<ul>
+<li>K-Adapter，一个灵活的方法，支持continual knowledge infusion into large PTMs，最终的模型包含一个PLM和两个Adapter；</li>
+<li>They infuse factual knowledge and linguistic knowledge，然后两种adapters都在下游任务表现良好</li>
+<li>通过在三种下游任务（关系分类、命名实体分类、qa）中fine-tuning的方式，结果很好。</li>
+</ul>
+<p><strong>时间会议</strong>：2020，arxiv，会议还不知道</p>
+<p><strong>QA数据集</strong>：CosmosQA，SearchQA,  Quasar-T QA</p>
+<p><strong>本文引入的知识类型</strong></p>
+<ul>
+<li>factual knowledge，将Wikipedia文本对齐到Wikidata三元组</li>
+<li>linguistic knowledge，对web文本进行依存分析得到</li>
+</ul>
+<p><strong>思考</strong>：</p>
+<ul>
+<li>又学到了一种注入知识到PTMs的方式，我理解为PTM外接神经网络并且固定预训练模型！并且这种方式训练量不大，对构建一个知识引入预训练模型做MRC任务有所启发！</li>
+<li>考虑到支持知识continual learning的点值得学习</li>
+<li>减少计算量的办法：固定住参数、adapter各自独立训练</li>
+<li>在输出层的时候拼接结果，来做下游任务（之前的拼接在中间or输入呢）</li>
+<li>多任务学习方法还是很主流，但是也可以不用呢</li>
+<li>大神：RoBERTa自身已经具备很强的general 语言知识/语言学知识，LinAdapter对于下游任务的提升并不明显，额外引入的知识和PLM自身的知识有复合的部分。</li>
+<li>大神：两个训练K-Adapter的任务，是否适用于学到事实型知识和语言学知识？</li>
+<li>大神：如何针对不同的知识设计不同的学习/预训练任务？</li>
+<li>transformer依旧是核心，这篇论文针对transformer结构也可以近一步改进</li>
+<li>但是如果有GPT3那样的恐怖预训练模型，or针对某个知识领域的训练充分的大预训练模型，这种方法不知道还厉害不厉害。</li>
+</ul>
+<h4 id="模型方法"><a href="#模型方法" class="headerlink" title="模型方法"></a>模型方法</h4><h5 id="向PTMs里注入知识梳理"><a href="#向PTMs里注入知识梳理" class="headerlink" title="向PTMs里注入知识梳理"></a>向PTMs里注入知识梳理</h5><p>这篇文章中Related Work部分对于<strong>向PLM中注入知识</strong>这一方向进行了很好的梳理，相关工作的区别主要在于 <strong>a) knowledge sources</strong> 和 <strong>b) training objective</strong>；</p>
+<img src="https://i.loli.net/2020/06/09/SVBovZILxCqaKRl.png" style="zoom:80%;" />
+
+<h5 id="模型结构"><a href="#模型结构" class="headerlink" title="模型结构"></a>模型结构</h5><p>作者说这是个高效、灵活的模型，但涉及预训练阶段（预训练模型是冻住的，是对adapters针对不同任务各自预训练）和fine-tune，每个adapter都多个transformer</p>
+<img src="https://i.loli.net/2020/06/09/sn3PLKX9kMltUEY.png" style="zoom:80%;" />
+
+<img src="https://i.loli.net/2020/06/09/E6asnHX9IU1G7Bd.png" style="zoom:80%;" />
+
+<p>看adapter的单元结构，是一个神经模型。知识是先各自注入到这些adapter里面去，而不是直接注入到预训练模型里，从而不会引起catastrophic forgetting，也就是说这些是knowledge-specific adapter，预训练模型还是保持原来自己的参数，并且这些adapter会产生对应知识的可分离的表示。然后把预训练模型的输出和adapter层的输出拼起来。</p>
+<p>之前的注入方式是通过多任务学习，直接更新预训练模型的参数。</p>
+<h5 id="连接方式"><a href="#连接方式" class="headerlink" title="连接方式"></a>连接方式</h5><p>将adapter层连接到PLM中不同的transformer层上</p>
+<ul>
+<li>当前adapter层的输入：a) transformer层输出的隐藏层，b) 前一个adapter层的输出，这两个表示进行concat</li>
+<li>Adapter模型的输出：a) PLM最后一层的隐藏层输出，和 b) 最后一个adapter层的输出，进行concat作为最终的输出；</li>
+</ul>
+<h5 id="知识注入"><a href="#知识注入" class="headerlink" title="知识注入"></a>知识注入</h5><p>这里注入factual knowledge的方式是：adapter在factual实体关系数据集（T-REx）上做relation classification task.这任务需要adapter模型根据给定的基于context的entity pairs来分类relation labels。然后合并预训练语言模型、adapter的输出。</p>
+<p>这里注入linguistic knowledge的方法是：使用斯坦福的依存关系分类工具产生examples，然后在adapter在这些examples上做预训练，目标是预测给定句子里每个token的father index. 然后合并预训练语言模型、adapter的输出。</p>
+<h4 id="实验-1"><a href="#实验-1" class="headerlink" title="实验"></a>实验</h4><p><strong>预训练-微调阶段</strong></p>
+<ul>
+<li>不同的Adapter在不同的预训练任务上分别进行训练；</li>
+<li>对于不同的下游任务，K-Adapter采用和RoBERTa相同的微调方式；<ul>
+<li>只使用一种Adapter时，Adapter模型的最终输出作为task-specific层的输入；</li>
+<li>使用多种Adapter时，将多个Adapter模型的输出进行concat作为task-specific层的输入；</li>
+</ul>
+</li>
+</ul>
+<h4 id="实验-2"><a href="#实验-2" class="headerlink" title="实验"></a>实验</h4><p>在两种QA任务与上做实验，分别是commonsenseQA(数据集 CosmosQA)和open-domain QA(数据集searchQA和Quasar-T)上做实验。实验结果如下表所示</p>
+<p>CosmosQA结合了常识推理，推理复杂、多样，context更长。</p>
+<img src="https://i.loli.net/2020/06/09/mPOfvkyYt1H9rei.png" style="zoom:80%;" />
+
+
+
+<h3 id="2020-SIGDIAL-Commonsense-Evidence-Generation-and-Injection-in-Reading-Comprehension"><a href="#2020-SIGDIAL-Commonsense-Evidence-Generation-and-Injection-in-Reading-Comprehension" class="headerlink" title="2020_SIGDIAL_Commonsense Evidence Generation and Injection in Reading Comprehension"></a>2020_SIGDIAL_Commonsense Evidence Generation and Injection in Reading Comprehension</h3><h4 id="动机、贡献、启发"><a href="#动机、贡献、启发" class="headerlink" title="动机、贡献、启发"></a>动机、贡献、启发</h4><p>基于常识推理类型的问答有两个特点：1）用于支持回答的信息可能不在P内，2）如何使用外部知识来支持理解，这很难但很重要。</p>
+<p>推理所需要证据支持示意图：</p>
+<img src="https://i.loli.net/2020/06/28/uCYBDjF65g9qbSf.png" style="zoom:80%;" />
+
+<p>候选答案包含了贴近正确答案的干扰，因此候选答案之间的关系也很重要。</p>
+<p>之前的常识推理模型的方法通常是找到一个问题entity和知识图谱的推理路径从而获得answer entity，或者结合图卷积做别的。但一个问题就是，<u>对contextual commonsense reasoning来说，从段落或者问题很难找出仅仅一个最相关的entity来获得正确答案</u>。</p>
+<p>其他常识注入PTM然后通过多任务学习更新模型参数的方法，这样注入知识的时候模型参数需要再训练，可能导致灾难性的遗忘。</p>
+<p><strong>贡献</strong></p>
+<p>CEGI（Commonsense Evidence Generation and Injection）</p>
+<ul>
+<li><strong>提出了两个evidence generators</strong>，（可以看做输入的辅助信息）<ul>
+<li>通过PTM生成<strong>textual evidence generator</strong></li>
+<li>从factual knowledge source抽取生成<strong>factual evidence generator</strong>：生成描述出现在P, Q, O里的entity之间相关关系的text</li>
+</ul>
+</li>
+<li>提出了一个<strong>把两种evidences infuse后注入到contextual reasoning PTM的方法，用attention来match</strong></li>
+<li>采用胶囊网络来捕获候选答案之间的关系，从而做最后的答案预测。</li>
+<li>在CosmosQA上达到了SOTA，比如超过了上文的K-Adapter 2%</li>
+</ul>
+<p><strong>启发</strong></p>
+<ul>
+<li>生成的evidence是人类可理解的，并且有助于推理任务</li>
+<li>要想办法不让fine-tune造成灾难性遗忘</li>
+<li>textual evidence generator是否可以看做文本摘要作为证据支持，这是因为数据集特点，适合用textual evidence generator</li>
+<li>层级结构还是很重要的</li>
+<li>基于QANet attention的返回来做A-aware B representation，很经典。</li>
+</ul>
+<h4 id="概要-2"><a href="#概要-2" class="headerlink" title="概要"></a>概要</h4><p>数据集：CosmosQA，没有code</p>
+<p>感受：很有逻辑，但模型复杂，很多技术点</p>
+<p>方法：</p>
+<ul>
+<li><p>Evidence Generation</p>
+<ul>
+<li><p>textual evidence generator</p>
+<p>从Q和P中，生成evidence text E=[e1,e2,…ek]，注：k的数量视不同q和paragraph pair而定（我的理解是不仅证据句子数量不同）    </p>
+<p>textual evidence generation能观察到textual的一些固有模式or常规信息</p>
+</li>
+<li><p>factual evidence generator</p>
+<p>使用factual knowledge graph来抽取facts and relations，具体略复杂，见论文</p>
+</li>
+</ul>
+</li>
+<li><p>Contextual Commonsense Reasoning</p>
+<p>Encoder（RoBERTa）生成P,Q,O,E的上下文特征，然后使用类似QANet的attention机制和co-matching来匹配特征pair，最后所有这些pair连接起来送入一个卷积网络来抽取options的不同语义单元，最终后送入一个胶囊网络来动态更新候选options的表示。</p>
+<p>其中，Evidence Injection的方式：用类似QANet的attention机制进行evidence Injection。</p>
+<p>用CNN来捕获phrase-level patterns</p>
+<p>目标是学习一个分类器P(y|P,Q,O,E)</p>
+</li>
+</ul>
+<h4 id="模型与公式"><a href="#模型与公式" class="headerlink" title="模型与公式"></a>模型与公式</h4><img src="https://i.loli.net/2020/06/28/LVxhEAwJTnk9WDl.png" style="zoom:80%;" />
+
+<p>剥离开来看，如果没用证据、也没用胶囊网络，就只是一个encoder+attention(QANet, co-matching)+CNN+prediction而已。</p>
+<p>这里也看出，是<strong>在输入的时候，加evidences一起tune的</strong>。（之前K-adapter采用的是在adapter上训练知识，然后和原目标拼接，也没有一起tune）</p>
+<p>证据生成部分</p>
+<img src="https://i.loli.net/2020/06/29/u9WVrjwsIcPk1zT.png" style="zoom: 67%;" />
+
+<p>textual evidence generation应该能观察到textual的一些固有模式，并且还能考虑到options之间的关系，从而抽取出evidence。在测试阶段，只输入了[P[SEP]Q]，训练的时候是[P[SEP]Q[SEP]O]</p>
+<img src="https://i.loli.net/2020/06/29/THpLfwO35unNzDW.png" style="zoom:67%;" />
+
+<p>使用factual knowledge graph来抽取facts and relations，ConceptNet作为base model，Comet来找到和产生新的relations，具体见论文。</p>
+<p>为了生成证据，从给定数据里先抽取出entities，然后把相关entity match到subject-relation-object triplets的subject。filter triplets的方法见论文。然后吧这些filtered triplets转化为factual evidences序列。</p>
+<h4 id="实验-3"><a href="#实验-3" class="headerlink" title="实验"></a>实验</h4><p>给出了很好的baseline分类：</p>
+<img src="https://i.loli.net/2020/06/29/ep4aU7jRygTfiNZ.png" style="zoom:80%;" />
+
+<p>CosmosQA记录</p>
+<img src="https://i.loli.net/2020/06/29/5UsQZLnDpqPbSyH.png" style="zoom:80%;" />
+
+<p>消融分析</p>
+<img src="https://i.loli.net/2020/06/29/j4pzL8IaVubhco9.png" style="zoom:80%;" />
+
+<p>胶囊网络有效的原因猜测是它抽取出了token-level到phrase-level的层级结构信息。</p>
+<h3 id="2019-ACL-Explicit-Utilization-of-General-Knowledge-in-Machine-Reading-Comprehension"><a href="#2019-ACL-Explicit-Utilization-of-General-Knowledge-in-Machine-Reading-Comprehension" class="headerlink" title="2019 ACL_Explicit Utilization of General Knowledge in Machine Reading Comprehension"></a>2019 ACL_Explicit Utilization of General Knowledge in Machine Reading Comprehension</h3><h4 id="动机-1"><a href="#动机-1" class="headerlink" title="动机"></a>动机</h4><ul>
+<li><p>MRC模型和人类之间的差距有两方面</p>
+<ol>
+<li>MRC模型需要大量的训练样例来学习</li>
+<li>MRC模型对于有意加入噪声数据不鲁棒</li>
+</ol>
+</li>
+<li><p>造成差距的原因在于目前MRC模型仅利用了给定passage-question对中的信息，而没有像人类一样利用一些 <strong>general knowledge</strong>， 因此这篇文章核心就是把这些general knowledge融入到MRC模型中</p>
+</li>
+<li><p>MRC融入general knowledge的两个问题</p>
+<ul>
+<li><p>如何从passage-question paris里抽取general knowledge？</p>
+<p>可以用knowledge base的结构化形式存储的通用知识来帮助抽取词之间的信息</p>
+</li>
+<li><p>如何利用抽取的知识来预测答案span？</p>
+<ul>
+<li>目前的做法都是隐式地将抽取到的知识的编码，用于增强相应词的lexical/contextual表示</li>
+<li>缺点：缺乏解释性和控制性</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="要点"><a href="#要点" class="headerlink" title="要点"></a>要点</h4><ul>
+<li><p>会议：2019 ACL</p>
+</li>
+<li><p>常见的knowledge base:</p>
+<p>WordNet(semantic knowledge)，ConceptNet(commonsense knowledge)， Freebase（factoid knowledge）</p>
+</li>
+<li><p>工作要点：</p>
+<ul>
+<li>词之间的语义联系（<strong>inter-word semantic connections</strong>）可以作为一种<strong>general knowledge</strong>，例如</li>
+</ul>
+<img src="https://i.loli.net/2020/04/22/AMvON5bmCjFKefg.png" style="zoom:80%;" />
+
+<ul>
+<li><p>提出了一种 <strong>data enrichment</strong> 方法，利用 <strong>WordNet</strong> 作为知识源，为passage-question pair抽取 inter-word semantic connections（<strong>主要是同义词</strong>），抽取是可控的，结果作为MRC明星的general know. </p>
+<p>抽取的这些很有助于预测。</p>
+</li>
+<li><p>提出了一个 <strong>Knowledge Aided Reader（KAR）</strong> 模型，用于显示地将预抽取到的 general knowledge（inter-word semantic connections获取到的） 引入到模型中，并<strong>辅助 attention 机制</strong></p>
+</li>
+</ul>
+</li>
+<li><p>结论</p>
+<ul>
+<li>inter-word semantic connection在小数据上抽取也能用在更大的数据集上</li>
+<li>利用词之间的语义连接，使用注意力机制的时候可以只关注最重要的部分而忽略不重要的</li>
+</ul>
+</li>
+</ul>
+<h4 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h4><p><strong>data enrichment</strong>的方法，主要是利用同义词集合，然后产生同义词链和拓展同义词集，规定一个超参数来控制拓展同义词集大小，从而抽取信息。抽取详细见：<a target="_blank" rel="noopener" href="http://xingluxi.github.io/2019/07/17/paper-acl2019-kar/">http://xingluxi.github.io/2019/07/17/paper-acl2019-kar/</a></p>
+<p><strong>KAR</strong>：显示地利用抽取到的general knowledge来<strong>辅助attention机制</strong>，即<strong>knowledge aided mutual attention</strong>, <strong>knowledge aided self attention</strong>。</p>
+<p>attention机制，主要的attention机制有两种，一种是<strong>mutual attention</strong>，把q搞到p里来得到question-aware passage representation，还有一种是<strong>self-attention</strong>，是把question-aware passage的表示再融合到他们自己本身来得到最终的passage representation。</p>
+<img src="https://i.loli.net/2020/04/22/LmyQ6xdgzvAoBF3.png" style="zoom:80%;" />
+
+<p>注意看图中的knowledge aided attention，还有knowledge aided similarity matrix，也就是把知识和注意力结合起来来预测答案，得到注意力的核心是需要有构造一个similarity matrix。而因为context包含很多信息，因此<strong>把之前抽取的gk(general know)引入到计算similarity</strong>的过程会更合理</p>
+<p>计算相似性用的函数是：<img src="https://i.loli.net/2020/04/22/s9vCK6kadcoglXH.png" style="zoom:80%;" /></p>
+<img src="https://i.loli.net/2020/04/22/JB4dlxfVbM9286h.png" style="zoom:67%;" />
+
+<p>而c<sup>*</sup><sub>w</sub>的就是包含知识的词表示，因为之前抽取了同义词集合E<sub>w</sub>，而它能关联到相应词在C<sub>P</sub>的位置，因此得到matching context embedding，然后得到匹配向量c<sub>w</sub>，再过向量合并和外接激活函数最终得到增强的包含知识的词表示。</p>
+<p>而在refined memory layer的self-attention融合gk的方式，就是passage中的每个词，只关心和它有同义词关系的其他passage中的词.</p>
+<h4 id="实验-4"><a href="#实验-4" class="headerlink" title="实验"></a>实验</h4><img src="https://i.loli.net/2020/04/22/dk5VPmNZGDv7YU9.png" style="zoom:80%;" />
+
+<img src="https://i.loli.net/2020/04/22/GqjAUmFtNMSYVB3.png" style="zoom:90%;" />
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/08/26/%E4%BB%8ECMRC2019%E5%A4%B4%E9%83%A8%E6%8E%92%E5%90%8D%E7%9C%8B%E4%B8%AD%E6%96%87MRC/" rel="prev" title="">
+                  <i class="fa fa-chevron-left"></i> 
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/08/26/%E7%9D%BF%E7%9D%BF%E7%9A%84NLP%E5%AE%9E%E8%B7%B5%E6%8C%87%E5%8D%97/" rel="next" title="">
+                   <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+  
+  
+  
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Changreal</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
